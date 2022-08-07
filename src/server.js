@@ -17,11 +17,14 @@ if (process.env.NODE_ENV === 'development') {
     .catch((err) => {
       console.log(err);
     });
-  app.listen(3000, () => {
-    console.log(`Server is running on port ${3000}`);
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
 } else {
   mongoose.connect(DB).then(() => {
     console.log('✓ DB PROD Connected');
+  });
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
 }
