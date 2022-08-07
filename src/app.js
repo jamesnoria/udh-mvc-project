@@ -20,10 +20,10 @@ app.get('/', (req, res) => {
     message: 'Welcome to the API',
     info: {
       creator: 'James Noria',
-      organization: 'UDH',
+      organization: 'UDH'
     }
   });
-})
+});
 
 app.use('/api/v1/users', UserRoute);
 

@@ -12,20 +12,16 @@ if (process.env.NODE_ENV === 'development') {
   mongoose
     .connect(DB_LOCAL)
     .then(() => {
-      console.log('✓ DB Connected');
+      console.log('✓ DB LOCAL Connected');
     })
     .catch((err) => {
       console.log(err);
     });
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  app.listen(3000, () => {
+    console.log(`Server is running on port ${3000}`);
+  });
+} else {
+  mongoose.connect(DB).then(() => {
+    console.log('✓ DB PROD Connected');
   });
 }
-
-mongoose.connect(DB).then(() => {
-  console.log('✓ DB PROD Connected');
-});
-
-app.listen(5000, () => {
-  console.log(`Server is running on port ${5000}`);
-});
