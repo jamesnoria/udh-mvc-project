@@ -1,3 +1,13 @@
+import AppError from '../utils/appError.js';
+
+const handleJWTError = (err) => {
+  return new AppError('Token invalido. Porfavor ingrese de nuevo', 401);
+};
+
+const handleJWTExpiredError = (err) => {
+  return new AppError('Token expirado. Porfavor ingrese de nuevo', 401);
+};
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -29,6 +39,10 @@ export default (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
-    sendErrorProd(err, res);
+    let error = { ...err };
+    if (error.name === 'JsonWebTokenError') error = handleJWTError(error);
+    if (error.name === 'TokenExpiredError')
+      error = handleJWTExpiredError(error);
+    sendErrorProd(error, res);
   }
 };
