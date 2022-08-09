@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import express from 'express';
 import * as authController from '../controllers/authController.js';
 import * as userController from '../controllers/userController.js';
 

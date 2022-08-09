@@ -2,3 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 npm run lint:fix
+echo "Corriga los errores del lint y luego vuelva a ingresar git add ."

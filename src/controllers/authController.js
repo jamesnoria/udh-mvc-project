@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { promisify } from 'util';
+// import { promisify } from 'util';
 import User from '../models/userModel.js';
 import CatchAsync from '../utils/catchAsync.js';
 import AppError from '../utils/appError.js';
@@ -10,7 +10,7 @@ const signToken = (id) => {
   });
 };
 
-export const signup = CatchAsync(async (req, res, next) => {
+export const signup = CatchAsync(async (req, res) => {
   const { name, lastName, email, password, passwordConfirm } = req.body;
 
   const newUser = await User.create({
@@ -67,8 +67,7 @@ export const protect = CatchAsync(async (req, res, next) => {
     return next(new AppError('Ningun token ha sido enviado', 401));
   }
 
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  console.log(decoded);
+  // const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   next();
 });

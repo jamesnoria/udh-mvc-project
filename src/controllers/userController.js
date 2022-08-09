@@ -1,7 +1,7 @@
 import User from '../models/userModel.js';
 import CatchAsync from '../utils/catchAsync.js';
 
-export const getAllUsers = CatchAsync(async (req, res, next) => {
+export const getAllUsers = CatchAsync(async (req, res) => {
   const users = await User.find();
   res.status(200).json({
     status: 'success',
