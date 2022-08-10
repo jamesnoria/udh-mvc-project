@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npm run lint:fix
+echo "De existir errores, corrigalos y luego vuelva a ingresar git add ."

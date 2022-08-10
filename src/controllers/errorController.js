@@ -1,3 +1,13 @@
+import AppError from '../utils/appError.js';
+
+const handleJWTError = () => {
+  return new AppError('Token invalido. Porfavor ingrese de nuevo', 401);
+};
+
+const handleJWTExpiredError = () => {
+  return new AppError('Token expirado. Porfavor ingrese de nuevo', 401);
+};
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -14,7 +24,6 @@ const sendErrorProd = (err, res) => {
       message: err.message
     });
   } else {
-    console.error('ERROR 💥', err);
     res.status(500).json({
       status: 'error',
       message: 'Something went very wrong'
@@ -22,6 +31,7 @@ const sendErrorProd = (err, res) => {
   }
 };
 
+/* eslint-disable-next-line no-unused-vars */
 export default (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
@@ -29,6 +39,9 @@ export default (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
-    sendErrorProd(err, res);
+    let error = { ...err };
+    if (error.name === 'JsonWebTokenError') error = handleJWTError();
+    if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
+    sendErrorProd(error, res);
   }
 };
